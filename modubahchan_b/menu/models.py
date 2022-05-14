@@ -3,22 +3,25 @@ from django.db import models
 
 # Create your models here.
 
-class Menu(models.Model):
+class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    category = models.CharField()
     description = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    createDate = models.DateTimeField(auto_now_add=True)
+    updateDate = models.DateTimeField(auto_now=True)
+    feedText = models.TextField()
+    CARTEGORY_LIST = (
+        ('DS', 'Dessert'),
+        ('BV', 'Beverage'),
+        ('AC', 'Alcohol'),
+        ('SD', 'SideDish'),
+        ('MK', 'MealKit'),
+        ('AP', 'ALP'),
+    )
+    ## 프론트에서 가져올때 : menu.category 는 키값, menu.get_category_display 는 내용
+    catecory = models.CharField(max_length=2, choices=CARTEGORY_LIST)
+    picture = models.ImageField(upload_to = "menu/", blank=True, null=True)
 
     def __str__(self):
         return self.name
-
-class Review(models.Model):
-    id = models.AutoField(primary_key=True)
-    content = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-
-
-    def __str__(self):
-        return self.content
