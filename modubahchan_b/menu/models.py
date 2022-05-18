@@ -1,11 +1,13 @@
 from cgi import print_directory
 from django.db import models
+from accounts.models import User
 
 # Create your models here.
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     createDate = models.DateTimeField(auto_now_add=True)
     updateDate = models.DateTimeField(auto_now=True)
