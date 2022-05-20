@@ -5,13 +5,14 @@ from rest_framework import serializers
 from .models import *
 
 class ProductListSerializer(serializers.ModelSerializer):
-
+    user = serializers.ReadOnlyField(source = 'user.id')
     class Meta:
         model = Product
-        fields = ('id','name','category', 'description','createDate','updateDate','feedText', 'category','picture')
+        fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source = 'user.id')
     class Meta:
         model = Product
-        fields = ('id','name','category', 'description','createDate','updateDate','feedText', 'category','picture')
+        fields = '__all__'
 
