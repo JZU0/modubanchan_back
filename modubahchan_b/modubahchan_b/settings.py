@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'menu',
     'cart',
     'accounts',
+    'mypage',
+    'drf_yasg',
 
     #django-rest-auth
     'rest_framework_simplejwt.token_blacklist',

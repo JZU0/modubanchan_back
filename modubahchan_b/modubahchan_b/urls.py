@@ -24,12 +24,12 @@ from accounts.views import UserViewSet
 router = routers.DefaultRouter()
 router.register('user', UserViewSet)
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
     path('product/', include('menu.urls')),
     path('cart/', include('cart.urls')),
+    path('mypage/', include('mypage.urls')),
     path('accounts/', include('dj_rest_auth.urls')),
     path('accounts/', include('dj_rest_auth.registration.urls')),
     path('accounts/', include('allauth.urls')),

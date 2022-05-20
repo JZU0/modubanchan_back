@@ -12,8 +12,9 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def cart_list_create(request):
+    user = request.user
     if request.method=='GET':
-        carts = Cart.objects.all()
+        carts = Cart.objects.filter(user = user)
         serializer = CartListSerializer(carts, many=True)
         return Response(data=serializer.data)
     
