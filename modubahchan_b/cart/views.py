@@ -39,4 +39,4 @@ def cart_update_delete(request,cart_pk):
         serializer = CartSerializer(instance=cart, data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return(serializer.data)
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
