@@ -13,19 +13,13 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticatedOrReadOnly])
-def profile_create_detail_update(request):
+def profile_update(request):
     user = request.user
-    profile = Profile.objects.filter(user = user)
     if request.method == 'GET':
-        serializer = ProfileSerializer(profile)
+        serializer = UserSerializer(user)
         return Response(data=serializer.data)
     elif request.method == 'POST':
-        serializer = ProfileSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
-            return Response(data=serializer.data,status=status.HTTP_201_CREATED)
-    elif request.method == 'PUT':
-        serializer = ProductSerializer(instance=profile, data=request.data)
-        if serializer.is_valid():
             serializer.save()
-        return Response(serializer.data)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
