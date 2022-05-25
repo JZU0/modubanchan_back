@@ -16,8 +16,8 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 def product_list_create(request):
     user = request.user
     if request.method == 'GET':
-        menus = Product.objects.all()
-        serializer = ProductListSerializer(menus, many=True)
+        products = Product.objects.all()
+        serializer = ProductListSerializer(products, many=True)
         return Response(data=serializer.data)
 
     if request.method == 'POST':
