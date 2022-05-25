@@ -19,7 +19,7 @@ def profile_update(request):
         serializer = UserSerializer(user)
         return Response(data=serializer.data)
     elif request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
+        serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
