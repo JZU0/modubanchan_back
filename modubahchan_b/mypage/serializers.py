@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['first_name', 'last_name']
 
-class ProfileSerializer(serializers.ModelSerializer):
+class FollowingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['followings']
