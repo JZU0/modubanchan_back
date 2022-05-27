@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from .serializers import *
 from .models import *
 from mypage.models import *
+from mypage.serializers import *
 
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
@@ -45,3 +46,19 @@ def product_detail_update_delete(request,product_pk):
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+def following_product_list(request):
+    user = request.user
+    followings = user.profile.followings.all()
+    productList = []
+    if request.method == 'GET':
+        for following in followings:
+            products = Product.objects.filter(user = following.user)
+            userProduct = UserProductSerializer(products, many=True)
+            productData = list(userProduct.data)
+            productList.append(productData)
+        serializer = productList
+        return Response(serializer)

@@ -16,3 +16,8 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+class FollowingProductListSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source = 'user.id')
+    class Meta:
+        model = Product
+        fields = '__all__'
