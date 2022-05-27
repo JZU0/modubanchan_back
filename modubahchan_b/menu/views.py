@@ -6,7 +6,6 @@ from .serializers import *
 from .models import *
 from mypage.models import *
 from mypage.serializers import *
-
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 
@@ -17,7 +16,7 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 def product_list_create(request):
     user = request.user
     if request.method == 'GET':
-        products = Product.objects.all()
+        products = Product.objects.all().order_by('-createDate')
         serializer = ProductListSerializer(products, many=True)
         return Response(data=serializer.data)
 
@@ -59,6 +58,15 @@ def following_product_list(request):
             products = Product.objects.filter(user = following.user)
             userProduct = UserProductSerializer(products, many=True)
             productData = list(userProduct.data)
-            productList.append(productData)
-        serializer = productList
+            for data in productData:
+                productList.append(data)
+        serializer = sorted(productList, key=lambda k: k.get('createDate',0), reverse=True)
         return Response(serializer)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+def search_products(request,word):
+    if request.method == 'GET':
+        products = Product.objects.filter(name__icontains=word).order_by('-createDate')
+        serializer = ProductListSerializer(products, many=True)
+        return Response(data=serializer.data)
